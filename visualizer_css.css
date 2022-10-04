@@ -1,0 +1,258 @@
+.range {
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 10px;
+    font-size: 22;
+    color: brown;
+}
+
+.x {
+    justify-content: space-around;
+}
+
+
+
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: brown;
+    background-image: none;
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.select {
+    position: relative;
+    display: flex;
+    width: 13em;
+    height: 3em;
+    line-height: 3;
+    background: #5c6664;
+    overflow: hidden;
+    border-radius: .25em;
+}
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: rgb(229, 129, 129);
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s all ease;
+}
+
+.select:hover::after {
+    color: brown;
+}
+
+
+
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 160px;
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    background: linear-gradient(to right, #9A2720 0%, #9A2720 100%);
+    background-size: 150px 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    outline: none;
+}
+
+input[type="range"]:first-of-type {
+    margin-top: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #F26B5E;
+    position: relative;
+    z-index: 3;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:after {
+    content: " ";
+    width: 160px;
+    height: 10px;
+    position: absolute;
+    z-index: 1;
+    right: 20px;
+    top: 5px;
+    background: #ff5b32;
+    background: linear-gradient(to right, #f088fc 1%, #AC6CFF 70%);
+}
+
+
+
+
+#swaps,
+#sorted {
+    font-size: 30px;
+    font-family: Copperplate;
+    color: rgb(61, 61, 92);
+    text-shadow: 2px 2px 2px aqua;
+    width: fit-content;
+    background: linear-gradient(skyblue, white, skyblue);
+    border: 3px solid gray;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 15px;
+}
+
+.box {
+
+    background-color: brown;
+    padding: 80px 60px 30px;
+    width: fit-content;
+    align-content: center;
+    margin: 0px auto;
+    border-radius: 20px;
+}
+
+button {
+    font-family: arial;
+    color: rgb(80, 7, 82);
+    background: linear-gradient(white, rgb(204, 255, 230));
+    border: 4px double orange;
+    letter-spacing: 3px;
+    border-radius: 0px;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 20px 10px 20px 0px;
+    cursor: pointer;
+
+}
+
+.x {
+    display: flex;
+}
+
+/* select,input,.input {
+    width:fit-content;
+    font-family:vardana;
+    color:purple;
+    background-color:pink;
+    border:4px solid purple;
+    outline:3px rgb(240, 133, 190) solid;
+    outline-offset:2px;
+    border-radius:15px;
+    font-size:23px;
+    padding:5px 10px;
+    margin:10px 20px;
+    } */
+input[type="number"] {
+    width: 9em;
+    font-family: vardana;
+    color: white;
+    background-color: brown;
+    /* border:4px solid purple;
+    outline:3px rgb(240, 133, 190) solid; */
+    border: 1px solid white;
+    /* outline-offset:2px; */
+    border-radius: 15px;
+    font-size: 23px;
+    padding: 5px 10px;
+    margin: 10px 20px;
+}
+
+::placeholder {
+    color: rgb(253, 222, 222);
+}
+
+
+h1 {
+    text-align: center;
+}
+
+.array,
+.information {
+    display: flex;
+    justify-content: flex-start;
+    width: 700px;
+    height: 50px;
+    margin: 0 auto;
+    background-color: brown;
+    color: white;
+
+}
+
+.information {
+    margin: 0px auto;
+    border: 0px;
+    background-color: inherit;
+    outline: none;
+}
+
+.array div,
+.information div {
+
+    height: inherit;
+    width: 700;
+    font-size: 25px;
+    border: 2px solid white;
+    text-align: center;
+    border-radius: 3px;
+    line-height: 47px;
+}
+
+.information div {
+    border: 0px;
+    color: white;
+    margin: auto;
+    line-height: 40px;
+    text-align: left;
+}
+
+body {
+    background-color: rgb(255, 230, 240);
+}
+
+.exchange,
+.inrange,
+.current {
+    color: brown;
+    background-color: rgb(244, 196, 196);
+    outline: 4px solid white;
+
+}
+
+.final,
+.found {
+    background-color: rgb(224, 74, 74);
+    color: white;
+}
+
+button {
+    background-color: blueviolet;
+    cursor: pointer;
+
+}
+
+.unsorted {
+    background-color: brown;
+    color: white;
+}

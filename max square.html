@@ -1,0 +1,415 @@
+<html>
+
+<head>
+    <title>MAX SIZE SQUARE OF ALL 1's IN A GRID OF 0's AND 1's</title>
+    <link rel="stylesheet" href="visualizer_css.css">
+    <style>
+        #container {
+            display: grid;
+            width: fit-content;
+            column-gap: 10px;
+            row-gap: 10px;
+            margin-left: 45px;
+            margin-right: 45px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            outline: 10px double rgb(246, 103, 179);
+            outline-offset: 5px;
+            height: fit-content;
+        }
+
+        body {
+            background-color: rgb(247, 224, 247);
+        }
+
+        .on {
+            color: brown;
+            background-color: rgb(244, 196, 196);
+            outline: 4px solid rgb(244, 196, 196);
+
+
+        }
+
+        .largest {
+            color: green;
+            background-color: rgb(117, 228, 128);
+            outline: 4px solid white;
+
+        }
+
+        .squaretill {
+            background-color: rgb(224, 74, 74);
+            color: white;
+            outline: 4px solid rgb(68, 7, 7);
+        }
+
+        .min {
+            outline: 4px solid red;
+
+        }
+
+        div {
+            text-align: center;
+            line-height: 30px;
+            ;
+        }
+
+        #result {
+            font-size: 30px;
+            font-family: Copperplate;
+            color: rgb(61, 61, 92);
+            text-shadow: 2px 2px 2px aqua;
+            width: fit-content;
+            /* font-family: Trebuchet MS,sans-serif; */
+            background: linear-gradient(skyblue, white, skyblue);
+            border: 3px solid gray;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 15px;
+        }
+
+        #content {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            /* flex-direction: column; */
+        }
+
+        .x {
+            flex-direction: column;
+            margin-left: 15px;
+            margin-right: 30px;
+            margin-top: 30px;
+
+        }
+
+        #calculation,
+        #actcalculation {
+            margin: 15px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .box {
+            visibility: hidden;
+            padding: 10px 5px 10px;
+            width: fit-content;
+            height: fit-content;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <div class="x">
+            <div class="input"><input type="number" min="1" max="10" id="row" placeholder="Rows" onchange="updateRow()">
+            </div>
+            <div class="input"><input type="number" min="1" max="10" id="column" placeholder="Columns"
+                    onchange="updateCol()"></div>
+
+            <div>
+                <div class="range">1's to 0's</div><input type="range" min="0" max="50" id="onezero" onchange="f()">
+            </div>
+        </div>
+        <div id="container">
+
+        </div>
+        <div class="box">
+            <div id="calculation">
+
+            </div>
+            <div id="actcalculation">
+            </div>
+        </div>
+    </div>
+</body>
+<div id="result">Max Square Size : <span id="rescount">0</span></div>
+
+<button onclick="generate_grid()">GENERATE GRID</button>
+<button onclick="start_largestSquare()">VISUALISE</button>
+
+
+<script>
+
+
+    var n = 7, m = 7;
+    var arr = [];
+    var prev = [-1, -1, -1];
+    var timeout = 1000;
+    var dp = [];
+    var ans = 0;
+    var lock = false;
+    var beginning = true;
+    var gridgen = false;
+
+    function initialize() {
+        arr = [];
+        document.getElementById("container").innerHTML = "";
+        prev = [-1, -1, -1];
+        dp = [];
+        ans = 0;
+        // if(!beginning && validateRowCol()==true)
+        // updateRowCol();
+        beginning = false;
+        let x = "", y = "";
+        for (let i = 0; i < m; i++)
+            y += " 30px";
+        for (let i = 0; i < n; i++)
+            x += " 30px";
+
+        for (let i = 0; i < n; i++)
+            arr[i] = [];
+        document.getElementById("container").style.gridTemplateColumns = y;
+        document.getElementById("container").style.gridTemplateRows = x;
+        for (let i = 0; i < n; i++)
+            for (let j = 0; j < m; j++) {
+                let e = document.createElement("div");
+                let z = parseFloat(document.getElementById("onezero").value);
+                z = z / 50;
+                let random = Math.floor(Math.random() * (2 - z) + (z));
+                e.innerHTML = random;
+                document.getElementById("container").append(e);
+                arr[i].push(e);
+            }
+        printArray();
+        initializeDpArr();
+
+    }
+
+    function start_largestSquare() {
+        if (gridgen == false)
+            window.alert("Please generate a new grid first");
+        if (gridgen == true && lock == false)
+            largestSquare();
+
+    }
+
+    function validateRow() {
+        let temprows = document.getElementById("row").value;
+        if (temprows != null && parseInt(temprows) > 0 && parseInt(temprows) <= 10) {
+            console.log("yes");
+            return true;
+        }
+        else {
+            window.alert("Please enter row value between 1 and 10");
+            return false;
+        }
+    }
+
+    function validateCol() {
+        let tempcols = document.getElementById("column").value;
+        if (tempcols != null && parseInt(tempcols) > 0 && parseInt(tempcols) <= 10) {
+            console.log("yes");
+            return true;
+        }
+        else {
+            window.alert("Please enter column value between 1 and 10");
+            return false;
+        }
+    }
+
+
+    function updateRow() {
+        console.log("updating");
+        if (validateRow()) {
+            n = document.getElementById("row").value;
+        }
+        gridgen = false;
+    }
+
+    function updateCol() {
+        console.log("updating");
+        if (validateCol()) {
+            m = document.getElementById("column").value;
+        }
+        gridgen = false;
+    }
+
+
+
+
+
+    function generate_grid() {
+        // if(validateRowCol())
+        //{
+        if (lock == false) {
+            gridgen = true;
+            // updateRowCol();
+            initialize();
+        }
+
+        // }
+    }
+
+    function f() {
+        initialize();
+
+    }
+    initialize();
+
+    function printArray() {
+        for (let i = 0; i < n; i++)
+            for (let j = 0; j < m; j++)
+                console.log(arr[i][j].innerHTML);
+
+    }
+
+    function initializeDpArr() {
+        for (let i = 0; i < n; i++)
+            dp[i] = [];
+
+        for (let i = 0; i < n; i++)
+            dp[i][0] = parseInt(arr[i][0].innerHTML);
+        for (let j = 0; j < m; j++)
+            dp[0][j] = parseInt(arr[0][j].innerHTML);
+
+    }
+
+    function lockInput() {
+        let todis = document.querySelectorAll('input,select,range');
+        let l = todis.length;
+        for (let i = 0; i < l; i++)
+            todis[i].disabled = true;
+    }
+    function unlockInput() {
+        let todis = document.querySelectorAll('input,select,range');
+        let l = todis.length;
+        for (let i = 0; i < l; i++)
+            todis[i].disabled = false;
+
+    }
+
+    function largestSquare() {
+        lock = true;
+        lockInput();
+        for (let i = 0; i < n; i++)
+            for (let j = 0; j < m; j++) {
+                setTimeout(() => {
+                    setTimeout(() => {
+                        arr[i][j].classList.remove("on");
+
+                        arr[i][j].innerHTML = dp[i][j];
+
+                        document.getElementById("calculation").innerHTML = "";
+                        document.getElementById("actcalculation").innerHTML = "";
+                        document.getElementsByClassName("box")[0].setAttribute("style", "visibility:hidden");
+                        document.getElementById("rescount").innerHTML = ans;
+                        setTimeout(() => {
+                            upper(i, j, dp[i][j]);
+                        }, 100)
+
+
+
+                        console.log(dp[i][j]);
+                    }, 3000)
+                    arr[i][j].classList.add("on");
+                    if (parseInt(arr[i][j].innerHTML) == 1 && i > 0 && j > 0) {
+                        document.getElementById("calculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = 1 + " + "minimum(";
+                        document.getElementById("actcalculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = 1 + " + "minimum(";
+                        document.getElementsByClassName("box")[0].setAttribute("style", "visibility:visible");
+                        console.log(document.getElementById("calculation").innerHTML);
+                        setTimeout(() => {
+                            arr[i][j - 1].classList.add("min");
+                            document.getElementById("calculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(dp[" + i + "][" + (parseInt(j) - 1) + "] ,";
+                            document.getElementById("actcalculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(" + dp[i][(parseInt(j) - 1)] + " ,";
+                            console.log(document.getElementById("calculation").innerHTML);
+                        }, 0)
+                        setTimeout(() => {
+                            document.getElementById("calculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(dp[" + i + "][" + (parseInt(j) - 1) + "] , " + "dp[" + (parseInt(i) - 1) + "][" + (parseInt(j) - 1) + "] ,";
+                            document.getElementById("actcalculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(" + dp[i][(parseInt(j) - 1)] + " ," + dp[(parseInt(i) - 1)][(parseInt(j) - 1)] + " ,";
+                            arr[i][j - 1].classList.remove("min");
+                            arr[i - 1][j - 1].classList.add("min");
+                            console.log(document.getElementById("calculation").innerHTML);
+                        }, 750)
+                        setTimeout(() => {
+                            document.getElementById("calculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(dp[" + i + "][" + (parseInt(j) - 1) + "] , " + "dp[" + (parseInt(i) - 1) + "][" + (parseInt(j) - 1) + "] ," + " dp[" + (parseInt(i) - 1) + "][" + j + "])";
+                            document.getElementById("actcalculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(" + dp[i][(parseInt(j) - 1)] + " ," + dp[(parseInt(i) - 1)][(parseInt(j) - 1)] + " ," + dp[(parseInt(i) - 1)][j] + ")";
+                            arr[i - 1][j - 1].classList.remove("min");
+                            arr[i - 1][j].classList.add("min");
+                            console.log(document.getElementById("calculation").innerHTML);
+                        }, 1500)
+                        setTimeout(() => {
+                            arr[i - 1][j].classList.remove("min");
+                            let mintemp = Math.min(dp[i - 1][j], dp[i - 1][j - 1], dp[i][j - 1]);
+                            document.getElementById("calculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + "minimum(dp[" + i + "][" + (parseInt(j) - 1) + "] , " + "dp[" + (parseInt(i) - 1) + "][" + (parseInt(j) - 1) + "] ," + " dp[" + (parseInt(i) - 1) + "][" + j + "]) + 1";
+                            document.getElementById("actcalculation").innerHTML = "dp[" + i + "]" + "[" + j + "]" + " = " + mintemp + " + 1 = " + (parseInt(mintemp) + 1);
+
+                            console.log(document.getElementById("calculation").innerHTML);
+                            if (i == n - 1 && j == m - 1) {
+                                unlockInput();
+                                lock = false;
+                                gridgen = false;
+                            }
+
+                        }, 2250)
+
+
+                        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1;
+                    }
+                    else {
+                        dp[i][j] = parseInt(arr[i][j].innerHTML);
+                        if (i == n - 1 && j == m - 1) {
+                            unlockInput();
+                            lock = false;
+                            gridgen = false;
+                        }
+                    }
+
+                    Math.max(ans, dp[i][j]);
+                    if (Math.max(ans, dp[i][j]) > ans) {
+                        ans = Math.max(ans, dp[i][j]);
+
+                        largestTillnow(i, j, ans);
+                    }
+                    console.log(ans);
+
+
+                }, timeout
+                )
+                timeout += 4000;
+            }
+    }
+
+    function upper(x, y, count) {
+        if (count <= 0)
+            return;
+
+        for (let i = 0; i < count; i++)
+            for (let j = 0; j < count; j++)
+                arr[x - i][y - j].classList.add("squaretill");
+        setTimeout(() => {
+            for (let i = 0; i < count; i++)
+                for (let j = 0; j < count; j++)
+                    arr[x - i][y - j].classList.remove("squaretill");
+
+        }, 800)
+    }
+
+
+    function largestTillnow(x, y, count) {
+        setTimeout(() => {
+            if (prev[0] != -1) {
+                let count2 = prev[2], x2 = prev[0], y2 = prev[1];
+                for (let i = 0; i < count2; i++)
+                    for (let j = 0; j < count2; j++)
+                        arr[x2 - i][y2 - j].classList.remove("largest");
+
+            }
+            for (let i = 0; i < count; i++)
+                for (let j = 0; j < count; j++)
+                    arr[x - i][y - j].classList.add("largest");
+            prev = [x, y, count];
+        }, 3900);
+
+    }
+
+    function valid(x, y, n, m) {
+        return x < n && x >= 0 && y < m && y >= 0;
+    }
+
+
+</script>
+</body>
+
+</html>

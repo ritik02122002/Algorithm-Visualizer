@@ -1,0 +1,191 @@
+<html>
+
+<head>
+  <title>VISUAL ALGO</title>
+  <style>
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .dropdown-content button {
+      color: black;
+      background-color: white;
+      border: 2px solid #787878;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    div.container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 10px 0px 20px 20px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0px;
+    }
+
+    /* .container{
+      color : brown;
+      /* width :13%; */
+    /* height: 50px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif; */
+    /* padding:5px 10px;
+      margin:5px 0px;
+      
+  }*/
+
+
+
+    .item {
+      color: white;
+      background-color: rgb(149, 61, 149);
+      background: linear-gradient(45deg, rgb(171, 32, 148), rgb(229, 118, 174) 35%, rgba(242, 35, 142, 0.7) 39%, rgb(229, 118, 174) 60%, rgb(171, 32, 148));
+      height: 100%;
+      margin: 1px 3px;
+      font-size: 25px;
+      cursor: pointer;
+      border: 3px double white;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+
+    .item2 {
+
+      color: white;
+      background-color: rgb(225, 157, 225);
+      height: 100%;
+      margin: 1px 3px;
+      font-size: 19px;
+      cursor: pointer;
+      border: 3px double white;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 5px 10px;
+      border-radius: 10px;
+
+    }
+
+    .item:hover {
+      color: rgb(63, 20, 63);
+      border: 3px double rgb(63, 20, 63);
+      font-size: 27px;
+      background: linear-gradient(45deg, rgb(251, 201, 243), rgb(236, 184, 210) 35%, rgba(237, 138, 189, 0.7) 39%, rgb(240, 171, 205) 60%, rgb(237, 186, 234));
+
+    }
+
+    .dropdown:hover .item {
+      font-size: 27px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content button:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: rgb(251, 210, 253);
+    }
+
+    a,
+    a:hover,
+    a:focus,
+    a:active {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    h1 {
+
+      margin: 11% auto 20px;
+      width: fit-content;
+      font-size: 60px;
+      text-align: center;
+      font-weight: bold;
+      background-color: rgb(93, 36, 93);
+      color: white;
+      padding: 20px 25px;
+      border: 7px double white;
+      letter-spacing: 5px;
+      font-family: verdana;
+      line-height: 1.7;
+      word-spacing: 1px;
+      border-radius: 15px 30px;
+
+    }
+
+    body {
+      background-color: rgb(241, 213, 240);
+    }
+
+    h3,
+    h2,
+    th {
+      text-align: center;
+      margin-left: 10%;
+      margin-right: 10%;
+      font-style: italic;
+      color: black;
+      text-shadow: 2px 2px 7px white;
+      font-size: 35px;
+      font-family: georgia;
+      letter-spacing: 3px;
+      transition-property: width;
+      transition-duration: 3s;
+    }
+
+    /* .container{
+
+justify-content: center;
+align-items: center;
+display: block;
+
+  } */
+  </style>
+</head>
+
+<body>
+
+  <h1>
+    VISUAL ALGO
+  </h1>
+  <h2>UNDERSTAND ALGORITHMS THROUGH VISUALISATION</h2>
+  <div class="container">
+
+
+    <div class="dropdown">
+      <button class="item">SORTING</button>
+      <div class="dropdown-content">
+        <button class="item2"><a href="bubblesort.html">BUBBLE SORT</a></button><br />
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="item">SEARCHING</button>
+      <div class="dropdown-content">
+        <button class="item2"><a href="linearsearch.html">LINEAR SEARCH</a></button>
+        <button class="item2"><a href="binarysearch.html">BINARY SEARCH</a></button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="item"><a href="">RECURSIVE</a></button>
+      <div class="dropdown-content">
+        <button class="item2"><a href="toh_html.html">TOWER OF HANOI</a></button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="item">DYNAMIC PROGRAMMING</button>
+      <div class="dropdown-content">
+        <button class="item2"><a href="max square.html">MAX SIZE SQUARE OF ALL 1's IN A GRID OF 0's AND 1's</a></button>
+      </div>
+    </div>
+
+</body>
+
+</html>

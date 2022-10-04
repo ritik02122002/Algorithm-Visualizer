@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <title>
+        linear search
+    </title>
+    <link rel="stylesheet" href="visualizer_css.css">
+    <style>
+        h1 {
+            font-style: italic;
+            font-family: Helvetica;
+            color: #8b1ca7;
+            word-spacing: 2px;
+            font-size: 70px;
+            text-align: center;
+            text-shadow: 2px 2px 8px orange;
+            letter-spacing: 2px;
+        }
+
+        #visual {
+            font-size: 30px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>LINEAR SEARCH</h1>
+    <div class="box">
+        <div class="array"></div>
+
+        <div class="information"></div>
+    </div>
+    <hr color="purple" style="margin:30px 10px;">
+    <br />
+    <div class="x">
+        <div class="input"><input type="number" min="1" max="15" id="key" placeholder="Element to search"></div>
+        <div class="input">
+            <div class="select">
+                <select id="n" onchange="arr_size()">
+                    <option value="3">Array size : 3</option>
+                    <option value="4">Array size : 4</option>
+                    <option value="5">Array size : 5</option>
+                    <option value="6" selected>Array size : 6</option>
+                    <option value="7">Array size : 7</option>
+                    <option value="8">Array size : 8</option>
+                    <option value="9">Array size : 9</option>
+                    <option value="10">Array size : 10</option>
+                    <option value="11">Array size : 11</option>
+                    <option value="12">Array size : 12</option>
+                    <option value="13">Array size : 13</option>
+                    <option value="14">Array size : 14</option>
+                    <option value="15">Array size : 15</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div class="range">Speed</div><input type="range" min="-2" max="2" id="speed">
+        </div>
+    </div>
+
+    <div class="x">
+
+        <button onclick="generate_random_arr('linearsearch')">GENERATE RANDOM ARRAY</button>
+        <button onclick="generate_sorted_arr('linearsearch')">GENERATE SORTED ARRAY</button>
+        <button id="visual" onclick="start_linearsearch()">VISUALISE</button>
+    </div>
+
+    <script src="visualizer_js.js"> </script>
+    <script>document.getElementById("speed").defaultValue = -2</script>
+</body>
+
+</html>

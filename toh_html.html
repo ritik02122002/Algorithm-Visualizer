@@ -1,0 +1,341 @@
+<html>
+
+<head>
+
+    <title>Tower Of Hanoi</title>
+
+    <style>
+        body {
+            background-image: url("background1.jpg");
+            background-size: cover;
+        }
+
+        h1 {
+            font-style: italic;
+            font-family: Helvetica;
+            /* color:#BA55D3; */
+            color: #8b1ca7;
+            word-spacing: 20px;
+            font-size: 70px;
+            text-align: center;
+            border-width: 5px 0 5px 0;
+            border-color: blue;
+            border-style: double;
+            text-shadow: 2px 2px 8px orange;
+            letter-spacing: 2px;
+        }
+
+        #moves {
+            font-size: 30px;
+            font-family: Copperplate;
+            color: rgb(61, 61, 92);
+            text-shadow: 2px 2px 2px aqua;
+            width: fit-content;
+            background: linear-gradient(skyblue, white, skyblue);
+            border: 3px solid gray;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 15px;
+        }
+
+        button {
+            font-family: arial;
+            color: rgb(80, 7, 82);
+            background: linear-gradient(white, rgb(204, 255, 230));
+            border: 4px double orange;
+            letter-spacing: 3px;
+            border-radius: 0px;
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px 10px 20px 20px;
+            cursor: pointer;
+
+        }
+
+        select,
+        input,
+        .input {
+            font-family: vardana;
+            color: purple;
+            background-color: pink;
+            border: 4px solid purple;
+            outline: 3px rgb(240, 133, 190) solid;
+            outline-offset: 2px;
+            border-radius: 15px;
+            font-size: 23px;
+            padding: 5px 10px;
+            margin: 10px 20px;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.4);
+            margin: 2% 0px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 45%;
+            width: 90%;
+        }
+
+        .tower1,
+        .tower2,
+        .tower3 {
+            display: flex;
+            flex-direction: column-reverse;
+            width: 33.333%;
+            align-items: center;
+
+        }
+
+        .rod1,
+        .rod2,
+        .rod3 {
+            height: 300px;
+            background-color: rgb(237, 79, 79);
+            width: 10px;
+            border-radius: 3px;
+            position: absolute;
+            bottom: 0px;
+        }
+
+        .rod1 {
+            right: 83%;
+        }
+
+        .rod2 {
+            right: 49.5%;
+        }
+
+        .rod3 {
+            right: 16.5%;
+        }
+
+        .tower1 div,
+        .tower2 div,
+        .tower3 div {
+            height: 30px;
+            width: 30px;
+            background-color: red;
+            border-radius: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            font-size: 0px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .input {
+            margin: 10px;
+        }
+
+        #x {
+            display: flex;
+        }
+
+        img {
+            margin: 10px;
+            height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tower Of Hanoi </h1>
+    <div class="container">
+
+        <div class="tower1" title="Tower 1"></div>
+        <div class="tower2" title="Tower 2"></div>
+        <div class="tower3" title="Tower 3"></div>
+
+        <div class="rod1" title="Tower 1"></div>
+        <div class="rod2" title="Tower 2"></div>
+        <div class="rod3" title="Tower 3"></div>
+
+    </div>
+    <div id="moves">MOVES : <span id="movecount">0</span></div>
+    <div id="x">
+        <div class="input">
+            <span>Number of blocks:</span>
+            <select id="numberofblocks" onchange="initialPos()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+        </div>
+
+        <div class="input">
+            <span>Speed:</span>
+            <input type="range" min="-6" max="4" id="speed" onchange="Storespeed()">
+        </div>
+
+        <div>
+            <button onclick="visualise_toh(n)">VISUALISE</button>
+
+            <button onclick="reset()">RESET</button>
+        </div>
+    </div>
+    <p id="status"></p>
+
+    <script>
+
+        var n = 3;
+        var movecount;
+        const colorarr = ["red", "green", "yellow", "purple", "pink", "blue", "orange"];
+        var from = []
+        var to = []
+        var timeout = 500;
+        var speed = 1;
+        var running = false;
+        var timeoutlist = []
+
+
+        initialPos(3);
+        function initialPos() {
+            if (running == true || document.getElementById("movecount") == null)
+                return;
+            Storespeed();
+
+            document.getElementsByClassName('tower1')[0].innerHTML = "";
+            document.getElementsByClassName('tower2')[0].innerHTML = "";
+            document.getElementsByClassName('tower3')[0].innerHTML = "";
+
+            movecount = 0;
+            document.getElementById("movecount").innerHTML = movecount;
+
+            n = document.getElementById("numberofblocks").value;
+
+            let h = 38 * n;
+            document.getElementsByClassName("rod1")[0].style.height = h;
+            document.getElementsByClassName("rod2")[0].style.height = h;
+            document.getElementsByClassName("rod3")[0].style.height = h;
+
+            for (let i = 0; i < n; i++) {
+                makeBlock(n - i, "tower1");
+            }
+        }
+
+        function Storespeed() {
+            if (running == false)
+                speed = document.getElementById("speed").value;
+        }
+
+        function makeBlock(blocknumber, tower) {
+            let e = document.createElement('div');
+            e.innerHTML = blocknumber;
+            e.style.width = 40 * blocknumber;
+            e.style.backgroundColor = colorarr[blocknumber - 1];
+            e.setAttribute("id", blocknumber);
+            let container1 = document.querySelector("." + tower);
+            container1.append(e);
+        }
+
+        function getTopElementId(tower) {
+            let count = document.getElementsByClassName(tower)[0].childElementCount;
+            return document.getElementsByClassName(tower)[0].children[count - 1].id;
+        }
+
+        function appendBlock(id, tower) {
+            makeBlock(id, tower);
+        }
+
+        function towerOfHanoi(n, source, destination, helper) {
+            if (n === 0)
+                return;
+            if (n > 0) {
+                towerOfHanoi(n - 1, source, helper, destination);
+
+                from.push(source);
+                to.push(destination);
+
+                towerOfHanoi(n - 1, helper, destination, source);
+            }
+
+        }
+        function lockInput() {
+            let todis = document.querySelectorAll('input,select,range');
+            let l = todis.length;
+            for (let i = 0; i < l; i++)
+                todis[i].disabled = true;
+        }
+        function unlockInput() {
+            let todis = document.querySelectorAll('input,select,range');
+            let l = todis.length;
+            for (let i = 0; i < l; i++)
+                todis[i].disabled = false;
+
+        }
+        function visualise_toh(n) {
+            if (running == true)
+                return;
+            let tower1ref = document.getElementsByClassName("tower1")[0];
+            console.log(tower1ref.childElementCount);
+            if (tower1ref.childElementCount == 0)
+                return;
+            running = true;
+            lockInput();
+            from = []
+            to = []
+            timeoutlist = []
+            timeout = 500 - 100 * speed;
+            let x, y;
+            towerOfHanoi(n, "tower1", "tower3", "tower2");
+
+            for (let i = 0; i < from.length; i++) {
+                x = setTimeout(() => {
+
+                    id = getTopElementId(from[i]);
+                    removeBlock(id);
+                    y = setTimeout(() => {
+
+                        appendBlock(id, to[i]);
+                        movecount++;
+                        document.getElementById("movecount").innerHTML = movecount;
+                        if (i == from.length - 1) {
+                            running = false;
+                            unlockInput();
+                            document.getElementById("moves").innerHTML = "Successfully moved all the blocks from Tower 1 to Tower 3 in " + movecount + " moves.";
+                        }
+                    }, 500 - 100 * speed)
+                    timeoutlist.push(y);
+
+
+                }, timeout - 100 * speed)
+                timeoutlist.push(x);
+                timeout += (1000 - 100 * speed);
+            }
+
+        }
+
+
+        function removeBlock(id) {
+            let c = document.getElementById(id);
+            if (c != null)
+                c.remove();
+        }
+
+        function reset() {
+            if (running) {
+                running = false;
+                unlockInput();
+                for (let i = 0; i < timeoutlist.length; i++)
+                    clearTimeout(timeoutlist[i]);
+            }
+            document.getElementById("moves").innerHTML = "MOVES : ";
+            e = document.createElement('span');
+            e.setAttribute("id", "movecount");
+            document.getElementById("moves").append(e);
+            e.innerHTML = "0";
+            initialPos(n);
+        }
+    </script>
+
+</body>
+
+</html>
